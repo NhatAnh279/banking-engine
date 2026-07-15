@@ -13,6 +13,7 @@ public class FraudValidator implements TransactionValidator {
 
     @Override
     public void validate(Transaction transaction, Account account) {
+        // Flagged under the Anti-Money Laundering and Counter-Terrorism Financing Act (AML/CTF
         if(transaction.getAmount().compareTo(new BigDecimal("10000")) > 0) {
             transaction.setStatus(Transaction.Status.FLAGGED);
         }
