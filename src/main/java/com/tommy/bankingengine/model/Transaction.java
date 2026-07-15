@@ -32,6 +32,6 @@ public class Transaction {
     }
 
     public enum Status {
-        PENDING, COMPLETED, REJECTED
+        PENDING, COMPLETED, REJECTED, FLAGGED
     }
 }
