@@ -23,6 +23,7 @@ public class AccountService {
                 .accountType(accountType)
                 .balance(BigDecimal.ZERO)
                 .status(Account.Status.ACTIVE)
+                .accountNumber("ACC-" + System.currentTimeMillis())
                 .createdAt(LocalDateTime.now())
                 .build();
             

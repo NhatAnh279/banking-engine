@@ -12,9 +12,11 @@ public class BalanceValidator implements TransactionValidator {
 
     @Override
     public void validate(Transaction transaction, Account account) {
-        if (account.getBalance().compareTo(transaction.getAmount()) < 0) {
-            throw new RuntimeException("Insufficient Balance");
-        }
+        if(transaction.getType() != Transaction.Type.DEPOSIT){
+            if (account.getBalance().compareTo(transaction.getAmount()) < 0) {
+                throw new RuntimeException("Insufficient Balance");
+            }
+    }
 
         if (next != null) {
             next.validate(transaction, account);
