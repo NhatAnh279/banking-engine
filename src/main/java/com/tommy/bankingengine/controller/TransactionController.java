@@ -1,18 +1,14 @@
 package com.tommy.bankingengine.controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import java.math.BigDecimal;
-
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import com.tommy.bankingengine.model.Transaction;
-import com.tommy.bankingengine.repository.AccountRepository;
-import com.tommy.bankingengine.repository.TransactionRepository;
-import com.tommy.bankingengine.service.AccountService;
 import com.tommy.bankingengine.service.TransactionService;
+import java.util.List;
+import org.springframework.web.bind.annotation.PathVariable;
 
 
 @RestController
@@ -43,6 +39,10 @@ public class TransactionController {
         
          }
     
+    @GetMapping("/history/{sourceAccount}")
+    public List<Transaction> getTransactionHistory(@PathVariable String sourceAccount) {
+        return transactionService.getTransactionHistory(sourceAccount);
+    }
 
     }
 

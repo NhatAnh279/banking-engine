@@ -36,4 +36,9 @@ public class AccountService {
             .orElseThrow(() -> new RuntimeException("Account not found"));
        
     }
+
+    public Account findAccountNumber(String number) {
+        return accountRepository.findByAccountNumber(number)
+                .orElseThrow(()-> new RuntimeException("Account not found"));
+    }
 }

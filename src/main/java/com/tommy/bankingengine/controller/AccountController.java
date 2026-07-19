@@ -28,4 +28,9 @@ public class AccountController {
     public Account getAccount(@PathVariable Long id) {
         return accountService.getAccount(id);
     }
+
+    @GetMapping("/number/{number}")
+    public Account findAccountNumber(@PathVariable String number) {
+        return accountService.findAccountNumber(number);
+    }
 }

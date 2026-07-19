@@ -2,7 +2,7 @@ package com.tommy.bankingengine.service;
 import com.tommy.bankingengine.model.Transaction;
 
 import org.springframework.stereotype.Service;
-
+import java.util.List;
 import com.tommy.bankingengine.model.Account;
 import com.tommy.bankingengine.repository.AccountRepository;
 import com.tommy.bankingengine.repository.TransactionRepository;
@@ -72,5 +72,10 @@ public class TransactionService {
         return transactionRepository.save(transaction);
     }
 
-
+    public List<Transaction> getTransactionHistory(String sourceAccount) {
+        accountRepository.findByAccountNumber(sourceAccount)
+            .orElseThrow(() -> new RuntimeException("Account not found"));
+    return transactionRepository.findBySourceAccount(sourceAccount);
+        
+    }
 }
