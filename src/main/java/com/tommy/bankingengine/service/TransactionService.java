@@ -11,6 +11,7 @@ import com.tommy.bankingengine.validation.BalanceValidator;
 import com.tommy.bankingengine.validation.DailyLimitValidator;
 import com.tommy.bankingengine.validation.DestinationAccountValidator;
 import com.tommy.bankingengine.validation.FraudValidator;
+import com.tommy.bankingengine.validation.StructuringDetector;
 import com.tommy.bankingengine.validation.WithdrawalLimitValidator;
 
 @Service
@@ -35,18 +36,17 @@ public class TransactionService {
         DestinationAccountValidator v4 = new DestinationAccountValidator(accountRepository);
         FraudValidator v5 = new FraudValidator();
         WithdrawalLimitValidator v6 = new WithdrawalLimitValidator(transactionRepository);
+        StructuringDetector v7 = new StructuringDetector(transactionRepository);
 
         v1.setNext(v2);
         v2.setNext(v3);
         v3.setNext(v4);
         v4.setNext(v5);
         v5.setNext(v6);
+        v6.setNext(v7);
 
         v1.validate(transaction, account);
 
-        if (transaction.getStatus() == Transaction.Status.FLAGGED) {
-            return transactionRepository.save(transaction);
-        }
 
         switch (transaction.getType()) {
             
@@ -69,10 +69,14 @@ public class TransactionService {
                 accountRepository.save(destination);
                 break;
         }
+        
+        if (transaction.getStatus() != Transaction.Status.FLAGGED) {
+            transaction.setStatus(Transaction.Status.COMPLETED);
+        }
 
-        transaction.setStatus(Transaction.Status.COMPLETED);
         accountRepository.save(account);
         return transactionRepository.save(transaction);
+
     }
 
     public List<Transaction> getTransactionHistory(String sourceAccount) {
