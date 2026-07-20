@@ -1,10 +1,8 @@
 package com.tommy.bankingengine.service;
-
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-
 import org.springframework.stereotype.Service;
-
+import com.tommy.bankingengine.model.AuditLog;
 import com.tommy.bankingengine.model.Account;
 import com.tommy.bankingengine.repository.AccountRepository;
 
@@ -12,9 +10,11 @@ import com.tommy.bankingengine.repository.AccountRepository;
 public class AccountService {
    
     private final AccountRepository accountRepository;
+    private final AuditLogService auditLogService;
 
-    public AccountService(AccountRepository accountRepository) {
+    public AccountService(AccountRepository accountRepository, AuditLogService auditLogService) {
         this.accountRepository = accountRepository;
+        this.auditLogService = auditLogService;
     }
 
     public Account createAccount(String ownerName, Account.AccountType accountType) {
@@ -27,8 +27,15 @@ public class AccountService {
                 .createdAt(LocalDateTime.now())
                 .build();
             
-        return accountRepository.save(account);
 
+        auditLogService.log(
+            AuditLog.Action.ACCOUNT_CREATED,
+            account.getAccountNumber(),
+            null,
+            "Account created for " + ownerName,
+            null
+        );
+        return accountRepository.save(account);
     }
 
     public Account getAccount(Long id) {

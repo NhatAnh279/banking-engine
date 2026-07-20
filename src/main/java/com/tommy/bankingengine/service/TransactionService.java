@@ -1,6 +1,6 @@
 package com.tommy.bankingengine.service;
 import com.tommy.bankingengine.model.Transaction;
-
+import com.tommy.bankingengine.model.AuditLog;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import com.tommy.bankingengine.model.Account;
@@ -19,10 +19,13 @@ public class TransactionService {
     
     private final TransactionRepository transactionRepository;
     private final AccountRepository accountRepository;
+    private final AuditLogService auditLogService;
 
-    public TransactionService(TransactionRepository transactionRepository, AccountRepository accountRepository) {
+    public TransactionService(TransactionRepository transactionRepository
+        , AccountRepository accountRepository, AuditLogService auditLogService) {
     this.transactionRepository = transactionRepository;
     this.accountRepository = accountRepository;
+    this.auditLogService = auditLogService; 
 }
 
     public Transaction processTransaction(Transaction transaction) {
@@ -74,6 +77,14 @@ public class TransactionService {
             transaction.setStatus(Transaction.Status.COMPLETED);
         }
 
+        
+        auditLogService.log(
+            AuditLog.Action.valueOf(transaction.getType().name()),  
+            account.getAccountNumber(),
+            transaction.getAmount(),
+            transaction.getType() + " $" + transaction.getAmount() + " - " + account.getAccountNumber(),
+            transaction.getId() != null ? transaction.getId().toString() : null
+        );
         accountRepository.save(account);
         return transactionRepository.save(transaction);
 
