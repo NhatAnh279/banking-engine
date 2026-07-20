@@ -18,6 +18,7 @@ public class Account {
     private String ownerName;
     private BigDecimal balance;
     private LocalDateTime createdAt;
+    private BigDecimal interestRate;
     
 
     public enum AccountType {

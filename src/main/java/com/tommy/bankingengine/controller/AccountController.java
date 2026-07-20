@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import com.tommy.bankingengine.model.Account;
 import com.tommy.bankingengine.service.AccountService;
+import com.tommy.bankingengine.service.InterestService;
 
 
 @RestController
@@ -14,9 +15,11 @@ import com.tommy.bankingengine.service.AccountService;
 public class AccountController {
     
     private final AccountService accountService;
+    private final InterestService interestService;
 
-    public AccountController(AccountService accountService) {
+    public AccountController(AccountService accountService, InterestService interestService) {
         this.accountService = accountService;
+        this.interestService = interestService;
     }
 
     @PostMapping
@@ -32,5 +35,10 @@ public class AccountController {
     @GetMapping("/number/{number}")
     public Account findAccountNumber(@PathVariable String number) {
         return accountService.findAccountNumber(number);
+    }
+
+    @PostMapping("/interest")
+    public Account calculateInterestRate(@RequestParam String accountNumber) {
+        return interestService.calculateInterestRate(accountNumber);
     }
 }

@@ -25,6 +25,9 @@ public class AccountService {
                 .status(Account.Status.ACTIVE)
                 .accountNumber("ACC-" + System.currentTimeMillis())
                 .createdAt(LocalDateTime.now())
+                .interestRate(accountType == Account.AccountType.SAVING 
+                ? new BigDecimal("0.045") 
+                : BigDecimal.ZERO)
                 .build();
             
 
