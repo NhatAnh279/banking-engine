@@ -12,7 +12,7 @@ public class WithdrawalLimitValidatorTest {
 
     @Test
     public void shouldThrow_whenExceedMonthlyLimit() {
-        // Mock repository — giả lập đã có 6 withdrawals
+        
         TransactionRepository mockRepo = mock(TransactionRepository.class);
         when(mockRepo.countBySourceAccountAndTypeAndCreatedAtAfter(any(), any(), any()))
                 .thenReturn(6L);
