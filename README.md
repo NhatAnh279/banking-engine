@@ -4,6 +4,8 @@ A production-ready backend system that simulates core banking transaction proces
 
 Built with Java Spring Boot, implementing Chain of Responsibility pattern for transaction validation — mirroring how real Australian banks process and validate financial transactions.
 
+**Live API:** https://banking-engine-production.up.railway.app
+
 ## Architecture
 
 ```
@@ -71,10 +73,10 @@ Every transaction passes through 7 validators before approval:
 ## Tech Stack
 
 - **Backend:** Java 17, Spring Boot 4.1
-- **Database:** PostgreSQL 16 (Docker), H2 (development)
+- **Database:** PostgreSQL 16 (Docker/Railway), H2 (development)
 - **ORM:** Spring Data JPA / Hibernate
 - **Testing:** JUnit 5, Mockito (29 tests)
-- **DevOps:** Docker, Docker Compose, GitHub Actions CI/CD
+- **DevOps:** Docker, Docker Compose, GitHub Actions CI/CD, Railway
 - **Design Pattern:** Chain of Responsibility
 
 ## API Endpoints
@@ -147,6 +149,7 @@ Automated on every push to `main`:
 1. Compile and run 29 unit tests
 2. Build Docker image with multi-stage build
 3. Push to Docker Hub
+4. Railway auto-deploys from GitHub
 
 ## Project Structure
 
@@ -182,10 +185,18 @@ src/main/java/com/tommy/bankingengine/
     └── GlobalExceptionHandler.java
 ```
 
+## AI-Assisted Development
+
+This project was built with AI assistance (Claude) for:
+- System architecture and design pattern selection
+- Debugging and troubleshooting
+- Learning Spring Boot conventions and best practices
+- CI/CD pipeline configuration
+
+All code was written, understood, and tested by the developer. AI was used as a learning accelerator, not a code generator.
+
 ## Roadmap
 
-- [ ] ML-based fraud scoring microservice (Python FastAPI + XGBoost)
-- [ ] Cloud deployment (Railway)
-- [ ] Swagger/OpenAPI documentation
-- [ ] Request/Response DTOs
-- [ ] Spring Security authentication
+- [ ] API documentation with Swagger/OpenAPI
+- [ ] Authentication and authorization with Spring Security
+- [ ] Request/Response DTOs for API security
